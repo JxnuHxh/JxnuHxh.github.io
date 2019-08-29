@@ -4,8 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, Hexo">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="DBUtils原理分析, Hexo">
+    <meta name="description" content="
+    
+    
+h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: &#34;Helvetica Neue&#34;, Helvet">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hello World | Hexo</title>
+    <title>DBUtils原理分析 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -260,13 +263,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hello World
+                        DBUtils原理分析
                     </div>
                 </div>
             </div>
@@ -404,20 +407,133 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+                <html lang="en"><head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h2>DBUtils</h2>
+<p>1.简化了增删改的代码
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+</p>
+<p>原始方法:
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+</p>
+<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
+</p>
+<p>通过分析可以发现:
+
+</p>
+<p>1.增删改数据库都是用以上方法完成,
+
+</p>
+<p>2.原始方法要创建每一种操作的方法,
+
+</p>
+<p>3.变化的只有 SQL模板和设置的参数,
+
+
+
+</p>
+<p>那么我们就可以创建一个工具类,去除掉重复的操作
+
+
+
+</p>
+<p>工具类的实现:
+
+
+
+</p>
+<p>首先需要用户传一个连接池进来,使用构造的方法获取
+
+</p>
+<p>将连接池定义个成员共其他方法使用
+
+
+
+</p>
+<p>然后定义一个增删改的方法,
+
+</p>
+<p>参数为 1.SQL模板 2.参数数组(为可变参数并且为Objcet类型方便传入任何类型)
+
+</p>
+<p>可以返回一个执行成功后的执行条数
+
+
+
+</p>
+<p>将重复的操作放到此方法中,
+
+</p>
+<p>通过连接池成员获取连接
+
+</p>
+<p>使用 传入的 SQL模板 创建预处理对象
+
+</p>
+<p>然后循环可变参数数组
+
+</p>
+<p>用预处理对象的setObjcet()方法循环设置每一个参数.
+
+</p>
+<p>调用预处理对象executeUpdate()更新结果.关闭预处理对象,关闭连接
+
+
+
+</p>
+<p>此方法设置好后,就可以使用一个方法实现 增删改,且简化了很多操作.
+
+
+
+
+
+
+
+</p>
+<p>2.简化了查询的代码
+
+</p>
+<p>因为查询与增删改略有不同,需要用到ResultSet结果集 来对数据进行读取存储,所以需要单独建立一个方法实现
+
+</p>
+<p>原始方法:
+
+</p>
+<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeQuery()方法得到ResultSet结果集 7.再将ResultSet将结果转换成对象返回 8.关闭ResultSet9.关闭预处理对象 10.关闭连接
+
+
+
+</p>
+<p>通过分析可以发现:
+
+</p>
+<p>1.变化有 SQL模板设置的参数和 ResultSet的转换,
+
+
+
+
+
+</p>
+<p>1.在工具类中定义一个泛型接口类 用来实现ResultSet结果集的转换
+
+</p>
+<p>接口中定义一个方法 参数为 ResultSet 类型,返回一个对象任意泛型对象
+
+
+
+
+
+</p>
+<p>2.实现一个泛型的查询方法,参数为(1.SQL模板 2.接口类 3.参数数组(为可变参数并且为Objcet类型方便传入任何类型)
+
+</p>
+<p>Edit By <a href="http://mahua.jser.me" target="_blank" rel="noopener">MaHua</a></p>
+</body></html>
             </div>
             <hr/>
 
@@ -575,9 +691,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Hello World》
+                    《DBUtils原理分析》
                 </span> by
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/29/hello-world/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/29/DBUtils原理分析/" property="cc:attributionName"
                rel="cc:attributionURL">
                 黄小华
             </a> is licensed under a
@@ -618,7 +734,7 @@
         repo: '',
         owner: '',
         admin: null,
-        id: '2019-08-29T00-55-05',
+        id: '2019-08-29T11-46-24',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -637,7 +753,7 @@
 <script src="/libs/gitment/gitment.js"></script>
 <script>
 var gitment = new Gitment({
-    id: 'Thu Aug 29 2019 00:55:05 GMT+0800',
+    id: 'Thu Aug 29 2019 11:46:24 GMT+0800',
     owner: '',
     repo: '',
     oauth: {
@@ -661,9 +777,9 @@ gitment.render('gitment-content');
 
 <script type="text/javascript">
     disqus_config = function () {
-        this.page.url = 'http://JxmuHxh.com/2019/08/29/hello-world/';
-        this.page.identifier = '/2019/08/29/hello-world/';
-        this.page.title = 'Hello World';
+        this.page.url = 'http://JxmuHxh.com/2019/08/29/DBUtils原理分析/';
+        this.page.identifier = '/2019/08/29/DBUtils原理分析/';
+        this.page.title = 'DBUtils原理分析';
     };
     let disqus_shortname = '';
 
@@ -967,9 +1083,51 @@ gitment.render('gitment-content');
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2019/08/29/DBUtils原理分析/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="DBUtils原理分析">
+                        
+                        <span class="card-title">DBUtils原理分析</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+    
+    
+h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvet
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-user fa-fw"></i>
+                            黄小华
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2019/08/29/my-first/">
                     <div class="card-image">
@@ -987,43 +1145,6 @@ gitment.render('gitment-content');
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-29
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-user fa-fw"></i>
-                            黄小华
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="fa fa-dot-circle-o"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/08/29/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-29
                             </span>
@@ -1035,7 +1156,6 @@ gitment.render('gitment-content');
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
