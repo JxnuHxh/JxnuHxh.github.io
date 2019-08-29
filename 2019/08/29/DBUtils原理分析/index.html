@@ -4,11 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="DBUtils原理分析, Hexo">
-    <meta name="description" content="
-    
-    
-h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: &#34;Helvetica Neue&#34;, Helvet">
+    <meta name="keywords" content="DBUtils原理分析, 黄小华的个人博客">
+    <meta name="description" content="1.简化了增删改的代码
+原始方法:
+1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接
+通">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +16,7 @@ h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-fam
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>DBUtils原理分析 | Hexo</title>
+    <title>DBUtils原理分析 | 黄小华的个人博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -44,7 +44,7 @@ h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-fam
                     
                     <img src="/medias/logo.png" class="logo-img" alt="LOGO">
                     
-                    <span class="logo-span">Hexo</span>
+                    <span class="logo-span">黄小华的个人博客</span>
                 </a>
             </div>
             
@@ -119,7 +119,7 @@ h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-fam
         
         <img src="/medias/logo.png" class="logo-img circle responsive-img">
         
-        <div class="logo-name">Hexo</div>
+        <div class="logo-name">黄小华的个人博客</div>
         <div class="logo-desc">
             
             Never really desperate, only the lost of the soul.
@@ -407,133 +407,37 @@ h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-fam
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <html lang="en"><head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="UTF-8">
-    <title></title>
-<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
-<body marginheight="0"><h2>DBUtils</h2>
-<p>1.简化了增删改的代码
+                <p>1.简化了增删改的代码</p>
+<p>原始方法:</p>
+<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接</p>
+<p>通过分析可以发现:</p>
+<p>1.增删改数据库都是用以上方法完成,</p>
+<p>2.原始方法要创建每一种操作的方法,</p>
+<p>3.变化的只有 SQL模板和设置的参数,</p>
+<p>那么我们就可以创建一个工具类,去除掉重复的操作</p>
+<p>工具类的实现:</p>
+<p>首先需要用户传一个连接池进来,使用构造的方法获取</p>
+<p>将连接池定义个成员共其他方法使用</p>
+<p>然后定义一个增删改的方法,</p>
+<p>参数为 1.SQL模板 2.参数数组(为可变参数并且为Objcet类型方便传入任何类型)</p>
+<p>可以返回一个执行成功后的执行条数</p>
+<p>将重复的操作放到此方法中,</p>
+<p>通过连接池成员获取连接</p>
+<p>使用 传入的 SQL模板 创建预处理对象</p>
+<p>然后循环可变参数数组</p>
+<p>用预处理对象的setObjcet()方法循环设置每一个参数.</p>
+<p>调用预处理对象executeUpdate()更新结果.关闭预处理对象,关闭连接</p>
+<p>此方法设置好后,就可以使用一个方法实现 增删改,且简化了很多操作.</p>
+<p>2.简化了查询的代码</p>
+<p>因为查询与增删改略有不同,需要用到ResultSet结果集 来对数据进行读取存储,所以需要单独建立一个方法实现</p>
+<p>原始方法:</p>
+<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeQuery()方法得到ResultSet结果集 7.再将ResultSet将结果转换成对象返回 8.关闭ResultSet9.关闭预处理对象 10.关闭连接</p>
+<p>通过分析可以发现:</p>
+<p>1.变化有 SQL模板设置的参数和 ResultSet的转换,</p>
+<p>1.在工具类中定义一个泛型接口类 用来实现ResultSet结果集的转换</p>
+<p>接口中定义一个方法 参数为 ResultSet 类型,返回一个对象任意泛型对象</p>
+<p>2.实现一个泛型的查询方法,参数为(1.SQL模板 2.接口类 3.参数数组(为可变参数并且为Objcet类型方便传入任何类型)</p>
 
-</p>
-<p>原始方法:
-
-</p>
-<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接
-
-
-
-</p>
-<p>通过分析可以发现:
-
-</p>
-<p>1.增删改数据库都是用以上方法完成,
-
-</p>
-<p>2.原始方法要创建每一种操作的方法,
-
-</p>
-<p>3.变化的只有 SQL模板和设置的参数,
-
-
-
-</p>
-<p>那么我们就可以创建一个工具类,去除掉重复的操作
-
-
-
-</p>
-<p>工具类的实现:
-
-
-
-</p>
-<p>首先需要用户传一个连接池进来,使用构造的方法获取
-
-</p>
-<p>将连接池定义个成员共其他方法使用
-
-
-
-</p>
-<p>然后定义一个增删改的方法,
-
-</p>
-<p>参数为 1.SQL模板 2.参数数组(为可变参数并且为Objcet类型方便传入任何类型)
-
-</p>
-<p>可以返回一个执行成功后的执行条数
-
-
-
-</p>
-<p>将重复的操作放到此方法中,
-
-</p>
-<p>通过连接池成员获取连接
-
-</p>
-<p>使用 传入的 SQL模板 创建预处理对象
-
-</p>
-<p>然后循环可变参数数组
-
-</p>
-<p>用预处理对象的setObjcet()方法循环设置每一个参数.
-
-</p>
-<p>调用预处理对象executeUpdate()更新结果.关闭预处理对象,关闭连接
-
-
-
-</p>
-<p>此方法设置好后,就可以使用一个方法实现 增删改,且简化了很多操作.
-
-
-
-
-
-
-
-</p>
-<p>2.简化了查询的代码
-
-</p>
-<p>因为查询与增删改略有不同,需要用到ResultSet结果集 来对数据进行读取存储,所以需要单独建立一个方法实现
-
-</p>
-<p>原始方法:
-
-</p>
-<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeQuery()方法得到ResultSet结果集 7.再将ResultSet将结果转换成对象返回 8.关闭ResultSet9.关闭预处理对象 10.关闭连接
-
-
-
-</p>
-<p>通过分析可以发现:
-
-</p>
-<p>1.变化有 SQL模板设置的参数和 ResultSet的转换,
-
-
-
-
-
-</p>
-<p>1.在工具类中定义一个泛型接口类 用来实现ResultSet结果集的转换
-
-</p>
-<p>接口中定义一个方法 参数为 ResultSet 类型,返回一个对象任意泛型对象
-
-
-
-
-
-</p>
-<p>2.实现一个泛型的查询方法,参数为(1.SQL模板 2.接口类 3.参数数组(为可变参数并且为Objcet类型方便传入任何类型)
-
-</p>
-<p>Edit By <a href="http://mahua.jser.me" target="_blank" rel="noopener">MaHua</a></p>
-</body></html>
             </div>
             <hr/>
 
@@ -1100,10 +1004,10 @@ gitment.render('gitment-content');
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    
-    
-h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvet
+                            1.简化了增删改的代码
+原始方法:
+1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接
+通
                         
                     </div>
                     <div class="publish-info">
@@ -1129,19 +1033,19 @@ h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-fam
                 Next&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/29/my-first/">
+                <a href="/2019/08/29/hello-world/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="my first">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
                         
-                        <span class="card-title">my first</span>
+                        <span class="card-title">Hello World</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
                         
                     </div>
                     <div class="publish-info">
