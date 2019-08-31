@@ -4,11 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="DBUtils原理分析, 黄小华的个人网站">
-    <meta name="description" content="1.简化了增删改的代码
-原始方法:
-1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接
-通">
+    <meta name="keywords" content="java之反射机制, 黄小华的个人网站">
+    <meta name="description" content="对象是表达或封装一些数据，一个类被加载后，JVM会创建一个对应该类的class对象类的整个结构信息会放到对应的class对象中，这个class对象就像一面镜子一样，通过这面镜子我可以看到对应类的全部信息
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>DBUtils原理分析 | 黄小华的个人网站</title>
+    <title>java之反射机制 | 黄小华的个人网站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -263,13 +261,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        DBUtils原理分析
+                        java之反射机制
                     </div>
                 </div>
             </div>
@@ -391,7 +389,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2019-08-29
+                    2019-08-31
                 </div>
 
                 
@@ -407,36 +405,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>1.简化了增删改的代码</p>
-<p>原始方法:</p>
-<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接</p>
-<p>通过分析可以发现:</p>
-<p>1.增删改数据库都是用以上方法完成,</p>
-<p>2.原始方法要创建每一种操作的方法,</p>
-<p>3.变化的只有 SQL模板和设置的参数,</p>
-<p>那么我们就可以创建一个工具类,去除掉重复的操作</p>
-<p>工具类的实现:</p>
-<p>首先需要用户传一个连接池进来,使用构造的方法获取</p>
-<p>将连接池定义个成员共其他方法使用</p>
-<p>然后定义一个增删改的方法,</p>
-<p>参数为 1.SQL模板 2.参数数组(为可变参数并且为Objcet类型方便传入任何类型)</p>
-<p>可以返回一个执行成功后的执行条数</p>
-<p>将重复的操作放到此方法中,</p>
-<p>通过连接池成员获取连接</p>
-<p>使用 传入的 SQL模板 创建预处理对象</p>
-<p>然后循环可变参数数组</p>
-<p>用预处理对象的setObjcet()方法循环设置每一个参数.</p>
-<p>调用预处理对象executeUpdate()更新结果.关闭预处理对象,关闭连接</p>
-<p>此方法设置好后,就可以使用一个方法实现 增删改,且简化了很多操作.</p>
-<p>2.简化了查询的代码</p>
-<p>因为查询与增删改略有不同,需要用到ResultSet结果集 来对数据进行读取存储,所以需要单独建立一个方法实现</p>
-<p>原始方法:</p>
-<p>1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeQuery()方法得到ResultSet结果集 7.再将ResultSet将结果转换成对象返回 8.关闭ResultSet9.关闭预处理对象 10.关闭连接</p>
-<p>通过分析可以发现:</p>
-<p>1.变化有 SQL模板设置的参数和 ResultSet的转换,</p>
-<p>1.在工具类中定义一个泛型接口类 用来实现ResultSet结果集的转换</p>
-<p>接口中定义一个方法 参数为 ResultSet 类型,返回一个对象任意泛型对象</p>
-<p>2.实现一个泛型的查询方法,参数为(1.SQL模板 2.接口类 3.参数数组(为可变参数并且为Objcet类型方便传入任何类型)</p>
+                <p>对象是表达或封装一些数据，一个类被加载后，JVM会创建一个对应该类的class对象<br><br><br>类的整个结构信息会放到对应的class对象中，这个class对象就像一面镜子一样，<br><br><br>通过这面镜子我可以看到对应类的全部信息</p>
 
             </div>
             <hr/>
@@ -595,9 +564,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《DBUtils原理分析》
+                    《java之反射机制》
                 </span> by
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/29/DBUtils原理分析/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/31/java之反射机制/" property="cc:attributionName"
                rel="cc:attributionURL">
                 黄小华
             </a> is licensed under a
@@ -638,7 +607,7 @@
         repo: '',
         owner: '',
         admin: null,
-        id: '2019-08-29T11-46-24',
+        id: '2019-08-31T20-05-50',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -659,9 +628,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2019/08/31/java之反射机制/">
                     <div class="card-image">
@@ -680,9 +650,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-user fa-fw"></i>
@@ -691,6 +661,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -701,19 +672,22 @@
                 Next&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/29/hello-world/">
+                <a href="/2019/08/29/DBUtils原理分析/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="DBUtils原理分析">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">DBUtils原理分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            1.简化了增删改的代码
+原始方法:
+1.获取连接池 2.获取连接 3.创建SQL模板 4.创建预处理对象 5.通过预处理对象设置模板中每一个参数 6.调用预处理对象executeUpdate()更新结果 7.关闭预处理对象 8.关闭连接
+通
                         
                     </div>
                     <div class="publish-info">
