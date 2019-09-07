@@ -4,8 +4,18 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="算法排序, 黄小华的个人网站">
-    <meta name="description" content="稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；内排序：所有排序操作都在内存中完成；外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据">
+    <meta name="keywords" content="sql语言, 黄小华的个人网站">
+    <meta name="description" content="
+
+
+
+
+
+create database company
+go
+
+use companygo
+if exists (select * from sysobjects where id = object_id(N’[dbo].[custom">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +23,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>算法排序 | 黄小华的个人网站</title>
+    <title>sql语言 | 黄小华的个人网站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -260,13 +270,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        算法排序
+                        sql语言
                     </div>
                 </div>
             </div>
@@ -404,292 +414,59 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；<br>不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；<br>内排序：所有排序操作都在内存中完成；<br>外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；<br>时间复杂度： 一个算法执行所耗费的时间。<br>空间复杂度：运行完一个程序所需内存的大小。<br>   <img src="/medias/place.jpg"><br>    n: 数据规模<br>    k: “桶”的个数<br>    In-place: 占用常数内存，不占用额外内存<br>    Out-place: 占用额外内存<br>算法分类<br><img src="/medias/relation.jpg"></p>
-<p>1、冒泡排序（Bubble Sort）</p>
-<p>冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
-<p>1.1 算法描述</p>
-<pre><code>比较相邻的元素。如果第一个比第二个大，就交换它们两个；
-对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对，这样在最后的元素应该会是最大的数；
-针对所有的元素重复以上的步骤，除了最后一个；
-重复步骤1~3，直到排序完成。</code></pre><p>1.2 代码实现</p>
-<pre><code>public static int[] bubbleSort(int[] array) {
-    if (array.length == 0)
-        return array;
-    for (int i = 0; i &lt; array.length; i++)
-        for (int j = 0; j &lt; array.length - 1 - i; j++)
-            if (array[j + 1] &lt; array[j]) {
-                int temp = array[j + 1];
-                array[j + 1] = array[j];
-                array[j] = temp;
-            }
-    return array;
-}</code></pre><p>1.3 算法分析</p>
-<p>最佳情况：T(n) = O(n) 最差情况：T(n) = O(n2) 平均情况：T(n) = O(n2)<br>2、选择排序（Selection Sort）</p>
-<p>表现最稳定的排序算法之一，因为无论什么数据进去都是O(n2)的时间复杂度，所以用到它的时候，数据规模越小越好。唯一的好处可能就是不占用额外的内存空间了吧。理论上讲，选择排序可能也是平时排序一般人想到的最多的排序方法了吧。</p>
-<p>选择排序(Selection-sort)是一种简单直观的排序算法。它的工作原理：首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。</p>
-<p>2.1 算法描述</p>
-<p>n个记录的直接选择排序可经过n-1趟直接选择排序得到有序结果。具体算法描述如下：</p>
-<pre><code>初始状态：无序区为R[1..n]，有序区为空；
-第i趟排序(i=1,2,3…n-1)开始时，当前有序区和无序区分别为R[1..i-1]和R(i..n）。该趟排序从当前无序区中-选出关键字最小的记录 R[k]，将它与无序区的第1个记录R交换，使R[1..i]和R[i+1..n)分别变为记录个数增加1个的新有序区和记录个数减少1个的新无序区；
-n-1趟结束，数组有序化了。</code></pre><p>2.2 代码实现</p>
-<pre><code>public static int[] selectionSort(int[] array) {
-    if (array.length == 0)
-        return array;
-    for (int i = 0; i &lt; array.length; i++) {
-        int minIndex = i;
-        for (int j = i; j &lt; array.length; j++) {
-            if (array[j] &lt; array[minIndex]) //找到最小的数
-                minIndex = j; //将最小数的索引保存
-        }
-        int temp = array[minIndex];
-        array[minIndex] = array[i];
-        array[i] = temp;
-    }
-    return array;
-}</code></pre><p>2.3 算法分析</p>
-<p>最佳情况：T(n) = O(n2) 最差情况：T(n) = O(n2) 平均情况：T(n) = O(n2)<br>3、插入排序（Insertion Sort）</p>
-<p>插入排序（Insertion-Sort）的算法描述是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
-<p>3.1 算法描述</p>
-<p>一般来说，插入排序都采用in-place在数组上实现。具体算法描述如下：</p>
-<pre><code>从第一个元素开始，该元素可以认为已经被排序；
-取出下一个元素，在已经排序的元素序列中从后向前扫描；
-如果该元素（已排序）大于新元素，将该元素移到下一位置；
-重复步骤3，直到找到已排序的元素小于或者等于新元素的位置；
-将新元素插入到该位置后；
-重复步骤2~5。</code></pre><p>3.2 代码实现</p>
-<pre><code>public static int[] insertionSort(int[] array) {
-    if (array.length == 0)
-        return array;
-    int current;
-    for (int i = 0; i &lt; array.length - 1; i++) {
-        current = array[i + 1];
-        int preIndex = i;
-        while (preIndex &gt;= 0 &amp;&amp; current &lt; array[preIndex]) {
-            array[preIndex + 1] = array[preIndex];
-            preIndex--;
-        }
-        array[preIndex + 1] = current;
-    }
-    return array;
-}</code></pre><p>3.3 算法分析</p>
-<p>最佳情况：T(n) = O(n) 最坏情况：T(n) = O(n2) 平均情况：T(n) = O(n2)<br>4、希尔排序（Shell Sort）</p>
-<p>希尔排序是希尔（Donald Shell）于1959年提出的一种排序算法。希尔排序也是一种插入排序，它是简单插入排序经过改进之后的一个更高效的版本，也称为缩小增量排序，同时该算法是冲破O(n2）的第一批算法之一。它与插入排序的不同之处在于，它会优先比较距离较远的元素。希尔排序又叫缩小增量排序。</p>
-<p>希尔排序是把记录按下表的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。</p>
-<p>4.1 算法描述</p>
-<p>我们来看下希尔排序的基本步骤，在此我们选择增量gap=length/2，缩小增量继续以gap = gap/2的方式，这种增量选择我们可以用一个序列来表示，{n/2,(n/2)/2…1}，称为增量序列。希尔排序的增量序列的选择与证明是个数学难题，我们选择的这个增量序列是比较常用的，也是希尔建议的增量，称为希尔增量，但其实这个增量序列不是最优的。此处我们做示例使用希尔增量。</p>
-<p>先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，具体算法描述：</p>
-<pre><code>选择一个增量序列t1，t2，…，tk，其中ti&gt;tj，tk=1；
-按增量序列个数k，对序列进行k 趟排序；
-每趟排序，根据对应的增量ti，将待排序列分割成若干长度为m 的子序列，分别对各子表进行直接插入排序。仅增量因子为1 时，整个序列作为一个表来处理，表长度即为整个序列的长度。</code></pre><p>4.2 代码实现</p>
-<pre><code>public static int[] ShellSort(int[] array) {
-    int len = array.length;
-    int temp, gap = len / 2;
-    while (gap &gt; 0) {
-        for (int i = gap; i &lt; len; i++) {
-            temp = array[i];
-            int preIndex = i - gap;
-            while (preIndex &gt;= 0 &amp;&amp; array[preIndex] &gt; temp) {
-                array[preIndex + gap] = array[preIndex];
-                preIndex -= gap;
-            }
-            array[preIndex + gap] = temp;
-        }
-        gap /= 2;
-    }
-    return array;
-}</code></pre><p>4.3 算法分析</p>
-<p>最佳情况：T(n) = O(nlog2 n) 最坏情况：T(n) = O(nlog2 n) 平均情况：T(n) =O(nlog2n)　<br>5、归并排序（Merge Sort）</p>
-<p>和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是O(n log n）的时间复杂度。代价是需要额外的内存空间。</p>
-<p>归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。归并排序是一种稳定的排序方法。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为2-路归并。</p>
-<p>5.1 算法描述</p>
-<pre><code>把长度为n的输入序列分成两个长度为n/2的子序列；
-对这两个子序列分别采用归并排序；
-将两个排序好的子序列合并成一个最终的排序序列。</code></pre><p>5.2 代码实现</p>
-<pre><code>public static int[] MergeSort(int[] array) {
-    if (array.length &lt; 2) return array;
-    int mid = array.length / 2;
-    int[] left = Arrays.copyOfRange(array, 0, mid);
-    int[] right = Arrays.copyOfRange(array, mid, array.length);
-    return merge(MergeSort(left), MergeSort(right));
-}
+                <img src="/medias/table1.png">
+<br>
+<img src="/medias/table2.png">
+<br>
+<img src="/medias/table3.png">
+<br>
+create database company
+go
 
-public static int[] merge(int[] left, int[] right) {
-    int[] result = new int[left.length + right.length];
-    for (int index = 0, i = 0, j = 0; index &lt; result.length; index++) {
-        if (i &gt;= left.length)
-            result[index] = right[j++];
-        else if (j &gt;= right.length)
-            result[index] = left[i++];
-        else if (left[i] &gt; right[j])
-            result[index] = right[j++];
-        else
-            result[index] = left[i++];
-    }
-    return result;
-}</code></pre><p>5.3 算法分析</p>
-<p>最佳情况：T(n) = O(n) 最差情况：T(n) = O(nlogn) 平均情况：T(n) = O(nlogn)<br>6、快速排序（Quick Sort）</p>
-<p>快速排序的基本思想：通过一趟排序将待排记录分隔成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。</p>
-<p>6.1 算法描述</p>
-<p>快速排序使用分治法来把一个串（list）分为两个子串（sub-lists）。具体算法描述如下：</p>
-<pre><code>从数列中挑出一个元素，称为 “基准”（pivot）；
-重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作；
-递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</code></pre><p>6.2 代码实现</p>
-<pre><code>public static int[] QuickSort(int[] array, int start, int end) {
-    if (array.length &lt; 1 || start &lt; 0 || end &gt;= array.length || start &gt; end) return null;
-    int smallIndex = partition(array, start, end);
-    if (smallIndex &gt; start)
-        QuickSort(array, start, smallIndex - 1);
-    if (smallIndex &lt; end)
-        QuickSort(array, smallIndex + 1, end);
-    return array;
-}
-
-public static int partition(int[] array, int start, int end) {
-    int pivot = (int) (start + Math.random() * (end - start + 1));
-    int smallIndex = start - 1;
-    swap(array, pivot, end);
-    for (int i = start; i &lt;= end; i++)
-        if (array[i] &lt;= array[end]) {
-            smallIndex++;
-            if (i &gt; smallIndex)
-                swap(array, i, smallIndex);
-        }
-    return smallIndex;
-}
-
-
-public static void swap(int[] array, int i, int j) {
-    int temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-}</code></pre><p>6.3 算法分析</p>
-<p>最佳情况：T(n) = O(nlogn) 最差情况：T(n) = O(n2) 平均情况：T(n) = O(nlogn)　<br>7、堆排序（Heap Sort）</p>
-<p>堆排序（Heapsort）是指利用堆这种数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。</p>
-<p>7.1 算法描述</p>
-<pre><code>将初始待排序关键字序列(R1,R2….Rn)构建成大顶堆，此堆为初始的无序区；
-将堆顶元素R[1]与最后一个元素R[n]交换，此时得到新的无序区(R1,R2,……Rn-1)和新的有序区(Rn),且满足R[1,2…n-1]&lt;=R[n]；
-由于交换后新的堆顶R[1]可能违反堆的性质，因此需要对当前无序区(R1,R2,……Rn-1)调整为新堆，然后再次将R[1]与无序区最后一个元素交换，得到新的无序区(R1,R2….Rn-2)和新的有序区(Rn-1,Rn)。不断重复此过程直到有序区的元素个数为n-1，则整个排序过程完成。</code></pre><p>7.2 代码实现</p>
-<p>注意：这里用到了完全二叉树的部分性质：详情见《数据结构二叉树知识点总结》</p>
-<p>//声明全局变量，用于记录数组array的长度；<br>static int len;</p>
-<pre><code>public static int[] HeapSort(int[] array) {
-    len = array.length;
-    if (len &lt; 1) return array;
-    //1.构建一个最大堆
-    buildMaxHeap(array);
-    //2.循环将堆首位（最大值）与末位交换，然后在重新调整最大堆
-    while (len &gt; 0) {
-        swap(array, 0, len - 1);
-        len--;
-        adjustHeap(array, 0);
-    }
-    return array;
-}
-/**
- * 建立最大堆
- *
- * @param array
- */
-public static void buildMaxHeap(int[] array) {
-    //从最后一个非叶子节点开始向上构造最大堆
-    for (int i = (len/2 - 1); i &gt;= 0; i--) { //感谢 @让我发会呆 网友的提醒，此处应该为 i = (len/2 - 1) 
-        adjustHeap(array, i);
-    }
-}
-/**
- * 调整使之成为最大堆
- *
- * @param array
- * @param i
- */
-public static void adjustHeap(int[] array, int i) {
-    int maxIndex = i;
-    //如果有左子树，且左子树大于父节点，则将最大指针指向左子树
-    if (i * 2 &lt; len &amp;&amp; array[i * 2] &gt; array[maxIndex])
-        maxIndex = i * 2;
-    //如果有右子树，且右子树大于父节点，则将最大指针指向右子树
-    if (i * 2 + 1 &lt; len &amp;&amp; array[i * 2 + 1] &gt; array[maxIndex])
-        maxIndex = i * 2 + 1;
-    //如果父节点不是最大值，则将父节点与最大值交换，并且递归调整与父节点交换的位置。
-    if (maxIndex != i) {
-        swap(array, maxIndex, i);
-        adjustHeap(array, maxIndex);
-    }
-}</code></pre><p>7.3 算法分析</p>
-<p>最佳情况：T(n) = O(nlogn) 最差情况：T(n) = O(nlogn) 平均情况：T(n) = O(nlogn)<br>8、计数排序（Counting Sort）</p>
-<p>计数排序的核心在于将输入的数据值转化为键存储在额外开辟的数组空间中。 作为一种线性时间复杂度的排序，计数排序要求输入的数据必须是有确定范围的整数。</p>
-<p>计数排序(Counting sort)是一种稳定的排序算法。计数排序使用一个额外的数组C，其中第i个元素是待排序数组A中值等于i的元素的个数。然后根据数组C来将A中的元素排到正确的位置。它只能对整数进行排序。</p>
-<p>8.1 算法描述</p>
-<pre><code>找出待排序的数组中最大和最小的元素；
-统计数组中每个值为i的元素出现的次数，存入数组C的第i项；
-对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）；
-反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1。</code></pre><p>8.2 代码实现</p>
-<pre><code>public static int[] CountingSort(int[] array) {
-    if (array.length == 0) return array;
-    int bias, min = array[0], max = array[0];
-    for (int i = 1; i &lt; array.length; i++) {
-        if (array[i] &gt; max)
-            max = array[i];
-        if (array[i] &lt; min)
-            min = array[i];
-    }
-    bias = 0 - min;
-    int[] bucket = new int[max - min + 1];
-    Arrays.fill(bucket, 0);
-    for (int i = 0; i &lt; array.length; i++) {
-        bucket[array[i] + bias]++;
-    }
-    int index = 0, i = 0;
-    while (index &lt; array.length) {
-        if (bucket[i] != 0) {
-            array[index] = i - bias;
-            bucket[i]--;
-            index++;
-        } else
-            i++;
-    }
-    return array;
-}</code></pre><p>8.3 算法分析</p>
-<p>当输入的元素是n 个0到k之间的整数时，它的运行时间是 O(n + k)。计数排序不是比较排序，排序的速度快于任何比较排序算法。由于用来计数的数组C的长度取决于待排序数组中数据的范围（等于待排序数组的最大值与最小值的差加上1），这使得计数排序对于数据范围很大的数组，需要大量时间和内存。</p>
-<p>最佳情况：T(n) = O(n+k) 最差情况：T(n) = O(n+k) 平均情况：T(n) = O(n+k)<br>9、桶排序（Bucket Sort）</p>
-<p>桶排序是计数排序的升级版。它利用了函数的映射关系，高效与否的关键就在于这个映射函数的确定。<br>9、基数排序（Radix Sort）</p>
-<p>基数排序也是非比较的排序算法，对每一位进行排序，从最低位开始排序，复杂度为O(kn),为数组长度，k为数组中的数的最大的位数；</p>
-<p>基数排序是按照低位先排序，然后收集；再按照高位排序，然后再收集；依次类推，直到最高位。有时候有些属性是有优先级顺序的，先按低优先级排序，再按高优先级排序。最后的次序就是高优先级高的在前，高优先级相同的低优先级高的在前。基数排序基于分别排序，分别收集，所以是稳定的。</p>
-<p>9.1 算法描述</p>
-<pre><code>取得数组中的最大数，并取得位数；
-arr为原始数组，从最低位开始取每个位组成radix数组；
-对radix进行计数排序（利用计数排序适用于小范围数的特点）；</code></pre><p>9.2 代码实现</p>
-<pre><code>public static int[] RadixSort(int[] array) {
-    if (array == null || array.length &lt; 2)
-        return array;
-    // 1.先算出最大数的位数；
-    int max = array[0];
-    for (int i = 1; i &lt; array.length; i++) {
-        max = Math.max(max, array[i]);
-    }
-    int maxDigit = 0;
-    while (max != 0) {
-        max /= 10;
-        maxDigit++;
-    }
-    int mod = 10, div = 1;
-    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; bucketList = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();
-    for (int i = 0; i &lt; 10; i++)
-        bucketList.add(new ArrayList&lt;Integer&gt;());
-    for (int i = 0; i &lt; maxDigit; i++, mod *= 10, div *= 10) {
-        for (int j = 0; j &lt; array.length; j++) {
-            int num = (array[j] % mod) / div;
-            bucketList.get(num).add(array[j]);
-        }
-        int index = 0;
-        for (int j = 0; j &lt; bucketList.size(); j++) {
-            for (int k = 0; k &lt; bucketList.get(j).size(); k++)
-                array[index++] = bucketList.get(j).get(k);
-            bucketList.get(j).clear();
-        }
-    }
-    return array;
-}</code></pre><p>9.3 算法分析</p>
-<p>最佳情况：T(n) = O(n * k) 最差情况：T(n) = O(n * k) 平均情况：T(n) = O(n * k)</p>
+<p>use company<br>go</p>
+<p>if exists (select * from sysobjects where id = object_id(N’[dbo].[customer]’) and OBJECTPROPERTY(id, N’IsUserTable’) = 1)<br>drop table [dbo].[customer]<br>GO</p>
+<p>if exists (select * from sysobjects where id = object_id(N’[dbo].[employee]’) and OBJECTPROPERTY(id, N’IsUserTable’) = 1)<br>drop table [dbo].[employee]<br>GO</p>
+<p>if exists (select * from sysobjects where id = object_id(N’[dbo].[product]’) and OBJECTPROPERTY(id, N’IsUserTable’) = 1)<br>drop table [dbo].[product]<br>GO</p>
+<p>if exists (select * from sysobjects where id = object_id(N’[dbo].[sale_item]’) and OBJECTPROPERTY(id, N’IsUserTable’) = 1)<br>drop table [dbo].[sale_item]<br>GO</p>
+<p>if exists (select * from sysobjects where id = object_id(N’[dbo].[sales]’) and OBJECTPROPERTY(id, N’IsUserTable’) = 1)<br>drop table [dbo].[sales]<br>GO</p>
+<p>/<em>员工人事表</em>/<br>CREATE TABLE employee(<br>emp_no char(5)not null primary key,<br>emp_name char(10) not null,<br>sex char(2) not null,<br>dept char(4) not null,<br>title char(6) not null,<br>date_hired datetime not null,<br>birthday datetime  null,<br>salary int not null,<br>telephone varchar(20) null,<br>addr char(50)  null,<br>)</p>
+<p>/<em>客户表</em>/<br>create table  customer(<br>cust_id char(5) not null primary key,<br>cust_name char(20) not null,<br>addr char(40) not null,<br>tel_no char(20) not null,<br>zip char(6) null<br>)</p>
+<p>/<em>销售主表</em>/<br>create table sales(<br>order_no int not null primary key,<br>cust_id char(5) not null,<br>sale_id char(5) not null,<br>tot_amt numeric(9,2) not null,<br>order_date datetime not null,<br>)</p>
+<p>/<em>销货明细表</em>/<br>create table sale_item(<br>order_no int not null,<br>prod_id char(5) not null,<br>qty int not null,<br>unit_price numeric(7,2) not null,<br>order_date datetime null,<br>constraint pk_sale_item primary key<br>(order_no,prod_id )<br>)</p>
+<p>/<em>产品名称表</em>/<br>create table product(<br>prod_id char(5) not null primary key,<br>prod_name char(20) not null<br>)</p>
+<p>/<em>人事表（employee）数据：</em>/<br>insert employee values(‘E0001’,’王大华’,’男’,’业务’,’经理’,’1976-10-13’,’1951-08-01’,80000,’13107912134’,’上海市’)<br>insert employee values(‘E0003’,’陈自强’,’男’,’会计’,’科长’,’1986-09-15’,’1963-06-09’,48000,’13307913451’,’南京市’)<br>insert employee values(‘E0014’,’周小梅’,’女’,’业务’,’职员’,’1996-03-01’,’1970-03-28’,32000,’13579607879’,’上海市’)<br>insert employee values(‘E0009’,’陈建国’,’男’,’管理’,’科长’,’1987-04-15’,’1967-09-01’,45000,’13879787765’,’天津市’)<br>insert employee values(‘E0017’,’林光华’,’男’,’业务’,’职员’,’1995-10-13’,’1973-08-17’,30000,’13979765654’,’上海市’)<br>insert employee values(‘E0006’,’李珠珠’,’女’,’管理’,’经理’,’1988-01-01’,’1961-07-12’,60000,’13679787667’,’北京市’)<br>insert employee values(‘E0002’,’李庄敬’,’男’,’人事’,’科长’,’1980-09-15’,’1958-05-13’,80000,’13979962335’,’广州市’)<br>insert employee values(‘E0010’,’王成功’,’男’,’信息’,’职员’,’1993-02-15’,’1969-04-15’,45000,’13723456789’,’北京市’)<br>insert employee values(‘E0013’,’陈中华’,’男’,’业务’,’职员’,’1993-02-15’,’1966-07-01’,43000,’13978790987’,’天津市’)<br>insert employee values(‘E0008’,’刘  刚’,’男’,’业务’,’职员’,’1994-11-01’,’1968-08-01’,40000,’13767654543’,’上海市’)<br>insert employee values(‘E0005’,’李珊珊’,’女’,’会计’,’职员’,’1990-03-20’,’1967-04-25’,38000,’13890987876’,’上海市’)<br>insert employee values(‘E0011’,’李小蓉’,’女’,’人事’,’职员’,’1994-11-01’,’1970-11-18’,30000,’13345432321’,’重庆市’)<br>insert employee values(‘E0012’,’蔡文钦’,’男’,’制造’,’厂长’,’1984-08-15’,’1960-07-21’,50000,’13789876766’,’上海市’)<br>insert employee values(‘E0015’,’张大山’,’男’,’制造’,’职员’,’1993-12-15’,’1968-09-23’,35000,’13567657889’,’上海市’)<br>insert employee values(‘E0007’,’吴铁雄’,’男’,’信息’,’科长’,’1989-10-01’,’1965-04-18’,50000,’13389876765’,’武汉市’)<br>insert employee values(‘E0016’,’方美美’,’女’,’业务’,’职员’,’1992-05-20’,’1966-06-23’,40000,’13167688877’,’上海市’)<br>insert employee values(‘E0004’,’刘中兴’,’男’,’制造’,’经理’,’1984-05-01’,’1960-05-23’,60000,’13541586766’,’上海市’)<br>insert employee values(‘E0019’,’王仁华’,’男’,’信息’,’经理’,’1985-09-15’,’1959-03-24’,60000,’13122334545’,’上海市’)<br>insert employee values(‘E0020’,’陈火旺’,’男’,’业务’,’职员’,’1992-08-01’,’1964-05-12’,40000,’13978796622’,’天津市’)<br>insert employee values(‘E0018’,’林中正’,’男’,’管理’,’总经理’,’1974-10-01’,’1953-05-04’,100000,’13879765667’,’上海市’)</p>
+<p>/*  客户（customer）表数据：*/<br>insert customer values(‘C0001’,’ABC股份有限公司’,’上海市’,’13879765667’,’500100’)<br>insert customer values(‘C0002’,’客户乙’,’天津市’,’13178788980’,’100300’)<br>insert customer values(‘C0003’,’客户丙’,’北京市’,’13345566789’,’100100’)<br>insert customer values(‘C0004’,’客户丁’,’上海市’,’13134455566’,’500210’)<br>insert customer values(‘C0005’,’客户戊’,’北京市’,’13677889890’,’100120’)<br>insert customer values(‘C0006’,’客户己’,’上海市’,’13767678899’,’500230’)<br>insert customer values(‘C0007’,’客户庚’,’上海市’,’13522334567’,’500300’)</p>
+<p>/<em>销售（sales）主表数据:</em>/<br>insert sales values (10002,’C0002’,’E0013’,22700.00,’1996-11-10’)<br>insert sales values(10003,’C0003’,’E0014’,13960.00,’1996-10-15’)<br>insert sales values(10004,’C0003’,’E0014’,33000.00,’1996-11-18’)<br>insert sales values (10001,’C0001’,’E0008’,60000.00,’1996-11-10’)<br>insert sales values (10007,’C0008’,’E0008’,20000.00,’1996-11-22’)</p>
+<p>/<em>销售明细表（sale_item）数据:</em>/<br>insert sale_item values (10001,’P0001’,5 , 2500.00,’1996-11-10’)<br>insert sale_item values (10001,’P0002’,3 , 6500.00,’1996-11-10’)<br>insert sale_item values (10001,’P0003’,2 , 5300.00,’1996-11-10’)<br>insert sale_item values (10002,’P0004’,2 , 1600.00,’1996-11-10’)<br>insert sale_item values (10002,’P0001’,3 , 2600.00,’1996-11-10’)<br>insert sale_item values (10002,’P0003’,1 , 5300.00,’1996-11-10’)<br>insert sale_item values (10003,’P0008’,2 , 4800.00,’1996-10-15’)<br>insert sale_item values (10003,’P0001’,4 , 2700.00,’1996-10-15’)<br>insert sale_item values (10004,’P0004’,2 , 1580.00,’1996-11-18’)<br>insert sale_item values (10004,’P0007’,4 , 2700.00,’1996-11-18’)<br>insert sale_item values (10007,’P0004’,2 , 1580.00,’1996-11-22’)</p>
+<p>/<em>产品名称(product)表数据：</em>/<br>insert product values (‘P0001’,’16M DRAM’)<br>insert product values (‘P0002’,’14寸显示器’)<br>insert product values (‘P0003’,’1.2GB硬盘’)<br>insert product values (‘P0004’,’3.5寸软驱’)<br>insert product values (‘P0005’,’键盘’)<br>insert product values (‘P0006’,’VGA显示卡’)<br>insert product values (‘P0007’,’网卡’)<br>insert product values (‘P0008’,’Pentium100CPU’)<br>insert product values (‘P0009’,’激光打印机’)<br>insert product values (‘P0010’,’8倍速光驱’)<br>insert product values (‘P0011’,’计算机字典’)<br>insert product values(‘P0012’,’9600bits-s调制解调器’)<br>insert product values(‘P0013’,’Pentium主板’)</p>
+<p>1、查询女职员所销售的订单号，订单金额。</p>
+<p>select order_no.tot_amt<br>from sales left join employee<br>on sale_id=emp_no</p>
+<p>2、查询在一张订单中订购了所有产品的订单号。</p>
+<p>select order_no<br>from sale_item product<br>where prod_id=product.prod_id<br>and (select count(order_no) from sale_item)=(select count(*) from product)</p>
+<p>3、查询每位顾客的总订购金额，并按总订购金额降序排列。</p>
+<p>select cust_id,tit_amt<br>from sales<br>order by tott_amt desc</p>
+<p>4、查询每种产品的订购数量总和，并显示出产品号、产品名及订单数量总和。</p>
+<p>select a.prod_id,prod_name,sum(qty)Sum_product,count(order_no),Sum_order<br>from sale_item a,product b<br>where a.prod_id=b.prod_id<br>group by a.prod_id,prod_name</p>
+<p>5、查询工资前五位职工的有关信息。</p>
+<p>select top(5)*<br>from employee<br>order by salary desc</p>
+<p>6、查询没有订购“P0004”产品的订单号。</p>
+<p>select distinct order_no<br>from sale_item<br>where order_no not in(<br>select order_no<br>from sale_item<br>where prod_id=’P0004’<br>);</p>
+<p>7、建一视图，该视图中包含业务部员工的员工号、员工名、订单号、客户名、订单金额。</p>
+<p>create view v_employee<br>as<br>select emp_no,emp_name,order_no,custname,tot_amt<br>from employee,sales,customer<br>where sale_id=order_no and sales.cust_id=customer.cust_id;</p>
+<p>8、对员工表添加一核查约束，限定员工性别只能取“男”或“女”。</p>
+<p>alter table employee<br>add constraint C1 check(sex in(‘男’,’女’))</p>
+<p>9、建一存储过程，当删除给定编号的员工时，实现级联删除，即既要删除员工表中的记录，又要删除销售主表及销售明细表的记录。</p>
+<p>create  procedure cascading_deletion<br>@Number char(5),<br>@begin char(5)=’false’<br>as<br>begin </p>
+<pre><code>if (@begin=&apos;true&apos;)
+  begin
+     alter table sales add constraint name1 foreign key (sale_id) references  employee(emp_no) ON DELETE CASCADE
+     alter table sale_item add constraint name2 foreign key (order_no) references sales (order_no) ON DELETE CASCADE  
+  end
+delete from employee where emp_no=@Number;</code></pre><p>end</p>
+<p>10、现有数据库中sales销售主表中的订单金额并不正确，它不是某订单中所有订单明细的商品数量*单价的总和。请创建一个存储过程，修改sales表中的订单金额tot_amt，使之等于各订单对应的所有订单明细的数量与单价的总和。</p>
+<p>CREATE PROCEDURE S10 AS BEGIN<br>    UPDATE sales<br>SET tot_amt = ( SELECT SUM ( qty * unit_price ) FROM sale_item WHERE sales.order_no= sale_item.order_no GROUP BY order_no )<br>END</p>
+<p>11、创建一个触发器，当对sale_item表进行插入、删除或修改商品数量qty及商品单价unit_price时，及时更新sales表中的订单金额tot_amt。</p>
+<p>CREATE TRIGGER update_totAmt ON sale_item after INSERT,<br>DELETE,<br>UPDATE AS BEGIN<br>        UPDATE sales<br>        SET tot_amt = ( SELECT SUM ( unit_price * qty ) FROM sale_item WHERE order_no = sales.order_no )<br>    END</p>
 
             </div>
             <hr/>
@@ -848,9 +625,9 @@ arr为原始数组，从最低位开始取每个位组成radix数组；
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《算法排序》
+                    《sql语言》
                 </span> by
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/07/算法排序/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/07/sql语言/" property="cc:attributionName"
                rel="cc:attributionURL">
                 黄小华
             </a> is licensed under a
@@ -890,9 +667,10 @@ arr为原始数组，从最低位开始取每个位组成radix数组；
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2019/09/07/sql语言/">
                     <div class="card-image">
@@ -920,9 +698,9 @@ if exists (select * from sysobjects where id = object_id(N’[dbo].[custom
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-07
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-user fa-fw"></i>
@@ -931,6 +709,7 @@ if exists (select * from sysobjects where id = object_id(N’[dbo].[custom
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -941,25 +720,24 @@ if exists (select * from sysobjects where id = object_id(N’[dbo].[custom
                 Next&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/09/06/代理模式/">
+                <a href="/2019/09/07/算法排序/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="代理模式">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="算法排序">
                         
-                        <span class="card-title">代理模式</span>
+                        <span class="card-title">算法排序</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            代理模式（Proxy）为另一个对象提供一个替身或占位符以控制对这个对象的访问，简而言之就是用一个对象来代表另一个对象。意图提供其他对象一个代理或占位符，来控制该对象的访问权限。
-静态代理  优点：业务类只需要关注逻辑本身，保证了业务类的重用
+                            稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；内排序：所有排序操作都在内存中完成；外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-06
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-07
                             </span>
                         <span class="publish-author">
                             
